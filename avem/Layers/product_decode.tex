@@ -5,9 +5,13 @@
 
 \pgfsetlayers{background,foreground}
 
-\begin{tikzpicture}[scale=1.0]
-\clip  (-2mm,-2mm) rectangle (26mm, 26mm); 
+\begin{tikzpicture}
+\tikzset
+{
+    vnodeStyle/.style = {circle, radius=1.8mm, thick,fill= yellow!10, text = black,draw = black,font = \scriptsize}
+}
 
+\clip  (-2mm,-2mm) rectangle (26mm, 26mm); 
 \def\n     {6}
 
 \begin{pgfonlayer}{background}
@@ -19,8 +23,12 @@
 \end{pgfonlayer}
 
 \begin{pgfonlayer}{foreground}
-\uncover<2-2>{
- \node[minimum width=10cm] (txt) at (12mm,-8mm) {Received block};
+\node[minimum width=10cm] (txt) at (12mm,-8mm) {};
+\only<1>{ \node[minimum width=10cm] at (txt) {Product Code};
+}
+
+\uncover<2>{
+ \node[minimum width=10cm] at (txt) {Received block};
 }
 
 \uncover<2-3>{
@@ -31,7 +39,7 @@
 }
 
 \uncover<3-4>{
- \node[minimum width=10cm] (txt) at (12mm,-8mm) {Row decoding};
+ \node[minimum width=10cm] at (txt) {Row decoding};
 }
 
 \uncover<3-3>{
@@ -48,7 +56,7 @@
 }
 
 \uncover<5-6>{
- \node[minimum width=10cm] (txt) at (12mm,-8mm) {Column decoding};
+ \node[minimum width=10cm] at (txt) {Column decoding};
 }
 
 \uncover<6-6>{
@@ -68,12 +76,12 @@
 }
 
 \uncover<8-8>{
- \node[minimum width=10cm] (txt) at (12mm,-8mm) {Decoding successful};
+ \node[minimum width=10cm] at (txt) {Decoding successful};
 }
 
 
 \uncover<9-9>{
- \node[minimum width=10cm] (txt) at (12mm,-8mm) {Or trapped in a \textcolor{red}{stopping set}};
+ \node[minimum width=10cm] at (txt) {Or trapped in a \textcolor{red}{stopping set}};
  \foreach \rr/\cc in {1/0,3/0,6/0,1/2,3/2,6/2,1/5,3/5,6/5}{
   \node[vnodeStyle,thick,fill=red!50,draw=red!80!black!80] (it1\rr\cc)
   at (\cc*4mm,\rr*4mm) {};

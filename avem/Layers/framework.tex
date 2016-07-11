@@ -1,0 +1,140 @@
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+
+\pgfsetlayers{background,foreground}
+
+\begin{tikzpicture}[
+  font=\footnotesize,
+  >=stealth',
+  line width=3pt,
+  device/.style={circle, inner sep = 0pt, minimum height = 5mm, minimum width=5mm, draw=black, fill=gray!40, line width=0.5pt},
+    decodeddevice/.style={circle, inner sep = 0pt, minimum height = 5mm, minimum width=5mm, draw=black, fill=blue, line width=0.5pt},
+  slot/.style={circle, inner sep = 0pt, minimum height = 1.5mm, fill=black, line width=0.5pt},
+  packet/.style={rectangle, minimum height=4mm, minimum width=14mm, draw=black, fill=gray!10, rounded corners, line width=0.5pt},
+    decodedpacket/.style={rectangle, minimum height=4mm, minimum width=14mm, draw=black, pattern=north east lines, rounded corners, line width=0.5pt}
+]
+\def\thickness{very thick}
+\def\lw{1pt}
+
+\begin{pgfonlayer}{background}
+\draw [->,\thickness] (0,-0.05) -- (8.25,-0.05);
+\draw[\thickness] (0.25,-0.175) -- (0.25,2.45);
+\foreach \x in {1,...,4} {
+  \draw (1.5*\x+0.25,-0.175) -- (1.5*\x+0.25,0.075);
+  \draw[dotted,\thickness] (1.5*\x+0.25,0.075) -- (1.5*\x+0.25,2.25);
+}
+\draw[thick] (7.75,-0.175) -- (7.75,2.45);
+\draw[dashed,\thickness] (0,2.05) -- (8,2.05);
+
+\foreach \x in {1,...,5} {
+  \node[slot] (s\x) at (1.5*\x-0.5,-0.3) {};
+  \node (t\x) at (1.5*\x-0.5,2.3) {slot~\x};
+}
+
+\node[device] (d1) at (1.25,-2) [label=below:device~1]{};
+\node[device] (d2) at (3,-2) [label=below:device~2]{};
+\node[device] (d3) at (4.75,-2) [label=below:device~3]{};
+\node[device] (d4) at (6.5,-2) [label=below:device~4]{};
+\end{pgfonlayer}
+
+
+\begin{pgfonlayer}{foreground}
+
+
+\only<1-3>{
+\node[packet] (p21) at (1.0,0.75) {$m_2$};
+\node[packet] (p23) at (4.0,0.75) {$m_2$};
+\draw[line width=\lw] (d2) -- (s1);
+\draw[line width=\lw] (d2) -- (s3);
+}
+
+\only<1>{
+\node[packet] (p24) at (5.5,0.75) {$m_2$};
+\draw[line width=\lw] (d2) -- (s4);
+\node (text) at (4,-3.5) {\large{Instance of Random Access}};
+}
+
+\only<2>{\node[decodedpacket] (p24) at (5.5,0.75) {$m_2$};
+\draw[line width=\lw,dashed] (d2) -- (s4);
+}
+
+\only<3->{
+\node[decodeddevice] at (d2){};
+
+}
+
+\only<2-3>{\node at (text) {\large{Step 1}};}
+
+\only<1-4>{
+\node[packet] (p31) at (1.0,1.25) {$m_3$};
+\node[packet] (p33) at (4.0,1.25) {$m_3$};
+\node[packet] (p35) at (7.0,1.25) {$m_3$};
+\draw[line width=\lw] (d3) -- (s1);
+\draw[line width=\lw] (d3) -- (s3);
+\draw[line width=\lw] (d3) -- (s5);
+}
+
+\only<4>{\node at (text) {\large{Step 2}};}
+
+\only<5>{
+\node[decodedpacket]  (p31) at (1.0,1.25) {$m_3$};
+\node[packet] (p33) at (4.0,1.25) {$m_3$};
+\node[packet] (p35) at (7.0,1.25) {$m_3$};
+\draw[dashed,line width=\lw] (d3) -- (s1);
+\draw[line width=\lw] (d3) -- (s3);
+\draw[line width=\lw] (d3) -- (s5);
+\node at (text) {\large{Step 3}};
+}
+
+\only<6->{
+\node[decodeddevice] at (d3){};
+}
+\only<6>{
+\draw[line width=\lw] (d3) -- (s3);
+\draw[line width=\lw] (d3) -- (s5);
+\node[packet] (p33) at (4.0,1.25) {$m_3$};
+\node[packet] (p35) at (7.0,1.25) {$m_3$};
+\node at (text) {\large{Step 3}};
+}
+
+\only<1-7>{
+\node[packet] (p42) at (2.5,1.75) {$m_4$};
+\node[packet] (p43) at (4.0,1.75) {$m_4$};
+\node[packet] (p45) at (7.0,1.75) {$m_4$};
+\draw[line width=\lw] (d4) -- (s2);
+\draw[line width=\lw] (d4) -- (s3);
+\draw[line width=\lw] (d4) -- (s5);
+}
+
+\only<8>{
+\node[packet] (p42) at (2.5,1.75) {$m_4$};
+\node[decodedpacket] (p43) at (4.0,1.75) {$m_4$};
+\node[decodedpacket] (p45) at (7.0,1.75) {$m_4$};
+\draw (d4) -- (s2);
+\draw[dashed,line width=\lw] (d4) -- (s3);
+\draw[dashed,line width=\lw] (d4) -- (s5);
+}
+\only<7>{\node at (text) {\large{Step 4}};}
+\only<8-9>{\node at (text) {\large{Step 5}};}
+
+\only<9>{
+\node[packet] (p42) at (2.5,1.75) {$m_4$};
+\draw[line width=\lw] (d4) -- (s2);
+}
+
+\only<9->{
+\node[decodeddevice] at (d4){};
+}
+
+\only<1-10>{\draw[line width=\lw] (d1) -- (s2);
+\node[packet] (p12) at (2.5,0.25) {$m_1$};
+}
+
+\only<11>{
+\node[decodeddevice] at (d1){};
+}
+\only<10>{\node at (text) {\large{Step 6}};}
+\only<11->{\node at (text) {\large{Step 7}};}
+\end{pgfonlayer}
+\end{tikzpicture}
+
