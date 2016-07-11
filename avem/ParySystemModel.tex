@@ -1,0 +1,40 @@
+%\documentclass{article}
+%
+%\usepackage{tikz}
+%\usetikzlibrary{arrows,shapes,chains,matrix,positioning,scopes,patterns,calc}
+%\usepackage{color}
+%
+%\usepackage{latexsym}
+%\usepackage{amsmath,amssymb,amsthm}
+%\usepackage{etoolbox}
+%
+%\begin{document}
+
+\begin{tikzpicture}
+\def \recW{1in}; %Encoder Length
+\def \recH{0.5in}; %Encoder Width
+
+\def \R{0.06in}; %Larger circle radius
+
+\def \Gblks{0.25in}; %Gaps between blocks
+\def \ext{0.8in}; %Extensions towards left and right of the figure
+\def \extB{0.25in}; %Extensions towards top of the figure
+
+\def \fsize{\Large}; %Defining a generic font size to be adjusted depending on the scaling
+
+\tikzstyle{rect}   = [ rectangle, draw, text centered, thick,
+                        minimum height=\recH, minimum width=\recW ]
+
+\node [rect](enc) at (0,0) {\fsize Encoder} ;
+\node (chan)  [right = \ext of enc,draw,circle,text centered,radius=\R,thick]    {\fsize $\oplus$};
+\node (dec)[rect,right=\ext of chan] {\fsize Decoder} ;
+
+\draw[<-,thick](enc)-- +(-\ext,0) node[midway,above]{\fsize $m_1,\ldots,m_l$};
+\draw[->,thick](enc)--(chan)node[midway,above]{\fsize $c_1,\ldots,c_l$}node[midway,below]{\fsize $c_i\in \mathbb{F}_p$};
+\draw[->,thick](chan)--(dec)node[midway,above]{\fsize $r_1,\ldots,r_l$}node[midway,below]{\fsize $r_i\in \mathbb{F}_p$};;
+
+\draw[<-,thick](chan)--+(0,\extB) node[above] {\fsize $e_1,\ldots,e_l$};
+\draw[->,thick](dec)--+(\ext,0)node[midway,above]{\fsize  $\hat{m_1},\ldots,\hat{m_l}$};
+
+\end{tikzpicture}
+%\end{document}
