@@ -1,0 +1,24 @@
+\begin{tikzpicture}[
+  rectblk/.style={rectangle,minimum width=4,minimum height=0.2,thick,draw=black,fill=white},
+%  circleblk/.style={circle,minimum size=0.5in,thick,draw=black},
+]
+\def\fsize{\normalsize}
+\def\fsizes{\scriptsize}
+\def\ext{1}
+
+%Level 1 -mod2
+\node[font=\fsize] (msg) at (3,1) {$w=(w_1,w_2)$};
+\draw [->, thick] (msg.east) -- +(0:\ext) node[midway, above] {\fsizes $w_1$} node[draw, inner sep=5pt,at end, anchor= west] (encoder) {\fsize Ch. Encoder} ;
+\draw [->, thick] (msg.west) -- +(0:-\ext) node[midway, above] {\fsizes  $w_2$} node[draw, inner sep=5pt,at end, anchor= east] (CSencoder) {\fsize $\mathbf{A}$}; %{Sensing Matrix $\mathbf{A}$};
+
+\node[rectangle, draw, minimum width=3in] (codeword) at (3+\ext,1+2*\ext) {$\tilde{\vec{c}}$};
+
+\draw[->] (encoder.north)-- +(90:0.5*\ext) node[draw, rectangle,fill=white](CWperm){\fsizes Permute};
+\draw[->,thick](CWperm.north)-- (CWperm.north |- codeword.south) node[midway, right]{\fsizes $\vec{c}_{w_1}$};
+\draw [->] (CSencoder |- CWperm) -- (CWperm.west) node[midway,above] {$\pi_{w_2}$};
+\draw[->,thick](CSencoder.north)-- (CSencoder.north |- codeword.south) node[midway, left]{\fsizes  $\vec{a}_{w_2}$};
+
+\path let \p{A}=(codeword) in (3-2*\ext,\y{A})node (partition){} -- (partition |- codeword.north);
+\draw (partition |- codeword.north) -- (partition |- codeword.south) ;
+\node () at (partition -| CSencoder) {$\vec{a}_{w_2}$};
+\end{tikzpicture}
